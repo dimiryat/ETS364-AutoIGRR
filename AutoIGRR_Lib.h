@@ -1,5 +1,5 @@
 //Owner: Dennis Lin
-//Update date: 2019/03/20
+//Update date: 2019/03/19
 
 //How to use:
 
@@ -27,6 +27,29 @@ char *AutoIGRR_LogFielName[3] = {
 	"IGRR_na.log",
 	"IGRR_an.log",
 	"IGRR_aa.log"
+};
+#endif
+
+#if (NUM_SITES==3)
+#define FirstCombination 0
+#define LastCombination 6
+int AutoIGRR_SiteActiveMap[7][3] = {
+	{1,0,0},
+	{0,1,0},
+	{1,1,0},
+	{0,0,1},
+	{1,0,1},
+	{0,1,1},
+	{1,1,1}
+};
+char *AutoIGRR_LogFielName[7] = {
+	"IGRR_ann.log",
+	"IGRR_nan.log",
+	"IGRR_aan.log",
+	"IGRR_nna.log",
+	"IGRR_ana.log",
+	"IGRR_naa.log",
+	"IGRR_aaa.log"
 };
 #endif
 
