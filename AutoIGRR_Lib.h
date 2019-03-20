@@ -5,17 +5,9 @@
 
 //Add each function into ETS program native function before return statement
 //For example, AutoIGRR_OnTestInit() needs to be out in OnTestInit().
+//But for AutoIGRR_OnSot, it needs to be added as parameter of return statement.
+//i.e. return AutoIGRR_OnSot(SotValue)
 //And remove all msSetSites() statement in program.
-//Finally, add these codes in OnSot() before return statement
-    
-//  AutoIGRR_OnSot();
-//
-//	if (AutoIGRR_Repeat_Counter >= 0)
-//		SotValue = 'T';
-//	else
-//      SotValue = 'Q';
-//
-//  return SotValue;
 
 #define AutoIGRR_nnna 0
 #define AutoIGRR_nnan 1
