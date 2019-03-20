@@ -91,7 +91,7 @@ int AutoIGRR_OnTestInit(void)
 	return 0;
 }
 
-int AutoIGRR_OnSot(void)
+int AutoIGRR_OnSot(int SotValue)
 {
 	if (AutoIGRR_Repeat_Counter == 0)
 	{
@@ -107,7 +107,11 @@ int AutoIGRR_OnSot(void)
 		else
 			AutoIGRR_Repeat_Counter = -1;
 	}
-	return 0;
+	if (AutoIGRR_Repeat_Counter >= 0)
+		SotValue = 'T';
+	else
+		SotValue = 'Q';
+	return SotValue;
 }
 
 int AutoIGRR_OnTestCompletion(void)
