@@ -25,7 +25,7 @@
 #define AutoIGRR_aaan 13
 #define AutoIGRR_aaaa 14
 
-GLOBAL int AutoIGRR_Repeat_Counter = 0;
+int AutoIGRR_Repeat_Counter = 0;
 int AutoIGRR_Wait_time = 0;
 int AutoIGRR_Repeat_Counter_original = 0;
 int AutoIGRR_validSiteMap[NUM_SITES];
@@ -102,7 +102,10 @@ int AutoIGRR_OnSot(int SotValue)
 	if (AutoIGRR_Repeat_Counter >= 0)
 		SotValue = 'T';
 	else
+	{
 		SotValue = 'Q';
+		LogSetFileName("Junk.log", TRUE);
+	}
 	return SotValue;
 }
 
