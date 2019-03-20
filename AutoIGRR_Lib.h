@@ -9,27 +9,30 @@
 //i.e. return AutoIGRR_OnSot(SotValue)
 //And remove all msSetSites() statement in program.
 
-#define AutoIGRR_nnna 0
-#define AutoIGRR_nnan 1
-#define AutoIGRR_nnaa 2
-#define AutoIGRR_nann 3
-#define AutoIGRR_nana 4
-#define AutoIGRR_naan 5
-#define AutoIGRR_naaa 6
-#define AutoIGRR_annn 7
-#define AutoIGRR_anna 8
-#define AutoIGRR_anan 9
-#define AutoIGRR_anaa 10
-#define AutoIGRR_aann 11
-#define AutoIGRR_aana 12
-#define AutoIGRR_aaan 13
-#define AutoIGRR_aaaa 14
-
 int AutoIGRR_Repeat_Counter = 0;
 int AutoIGRR_Wait_time = 0;
 int AutoIGRR_Repeat_Counter_original = 0;
 int AutoIGRR_validSiteMap[NUM_SITES];
-int AutoIGRR_CurrentSiteActive = AutoIGRR_nnna;
+int AutoIGRR_CurrentSiteActive = 0;
+
+#if (NUM_SITES==2)
+#define FirstCombination 0
+#define LastCombination 2
+int AutoIGRR_SiteActiveMap[3][2] = {
+	{0,1},
+	{1,0},
+	{1,1}
+};
+char *AutoIGRR_LogFielName[3] = {
+	"IGRR_na.log",
+	"IGRR_an.log",
+	"IGRR_aa.log"
+};
+#endif
+
+#if (NUM_SITES==4)
+#define FirstCombination 0
+#define LastCombination 14
 int AutoIGRR_SiteActiveMap[15][4] = {
 	{0,0,0,1},
 	{0,0,1,0},
@@ -64,9 +67,65 @@ char *AutoIGRR_LogFielName[15] = {
 	"IGRR_aaan.log",
 	"IGRR_aaaa.log"
 };
+#endif
+
+#if (NUM_SITES==8)
+#define FirstCombination 0
+#define LastCombination 22
+int AutoIGRR_SiteActiveMap[23][8] = {
+	{1,0,0,0,1,0,0,0},
+	{0,1,0,0,0,1,0,0},
+	{1,1,0,0,1,1,0,0},
+	{0,0,1,0,0,0,1,0},
+	{1,0,1,0,1,0,1,0},
+	{0,1,1,0,0,1,1,0},
+	{1,1,1,0,1,1,1,0},
+	{0,0,0,1,0,0,0,1},
+	{1,0,0,1,1,0,0,1},
+	{0,1,0,1,0,1,0,1},
+	{1,1,0,1,1,1,0,1},
+	{0,0,1,1,0,0,1,1},
+	{1,0,1,1,1,0,1,1},
+	{0,1,1,1,0,1,1,1},
+	{1,1,1,1,1,1,1,1},
+	{1,0,0,0,0,0,0,0},
+	{0,1,0,0,0,0,0,0},
+	{0,0,1,0,0,0,0,0},
+	{0,0,0,1,0,0,0,0},
+	{0,0,0,0,1,0,0,0},
+	{0,0,0,0,0,1,0,0},
+	{0,0,0,0,0,0,1,0},
+	{0,0,0,0,0,0,0,1}
+};
+char *AutoIGRR_LogFielName[23] = {
+	"IGRR_annnannn.log",
+	"IGRR_nannnann.log",
+	"IGRR_aannaann.log",
+	"IGRR_nnannnan.log",
+	"IGRR_anananan.log",
+	"IGRR_naannaan.log",
+	"IGRR_aaanaaan.log",
+	"IGRR_nnnannna.log",
+	"IGRR_annaanna.log",
+	"IGRR_nananana.log",
+	"IGRR_aanaaana.log",
+	"IGRR_nnaannaa.log",
+	"IGRR_anaaanaa.log",
+	"IGRR_naaanaaa.log",
+	"IGRR_aaaaaaaa.log",
+	"IGRR_annnnnnn.log",
+	"IGRR_nannnnnn.log",
+	"IGRR_nnannnnn.log",
+	"IGRR_nnnannnn.log",
+	"IGRR_nnnnannn.log",
+	"IGRR_nnnnnann.log",
+	"IGRR_nnnnnnan.log",
+	"IGRR_nnnnnnna.log",
+};
+#endif
 
 int AutoIGRR_OnTestInit(void)
-{
+{	
 	char PopUpWindowTitle[] = {"Please setup your repeat number"};
 	char *InputDescription[] = {"Repeat (times)","Wait time(ms)"};
 	int ValueArray[] = {0, 0};
@@ -76,9 +135,9 @@ int AutoIGRR_OnTestInit(void)
 	AutoIGRR_Repeat_Counter_original = ValueArray[0];
 	AutoIGRR_Wait_time = ValueArray[1];
 	for (int i = 0; i < NUM_SITES; i++)
-		AutoIGRR_validSiteMap[i] = AutoIGRR_SiteActiveMap[AutoIGRR_nnna][i];
+		AutoIGRR_validSiteMap[i] = AutoIGRR_SiteActiveMap[FirstCombination][i];
 	msSetSites( NUM_SITES, AutoIGRR_validSiteMap );
-	LogSetFileName(AutoIGRR_LogFielName[AutoIGRR_nnna], TRUE);
+	LogSetFileName(AutoIGRR_LogFielName[FirstCombination], TRUE);
 
 	return 0;
 }
@@ -88,7 +147,7 @@ int AutoIGRR_OnSot(int SotValue)
 	if (AutoIGRR_Repeat_Counter == 0)
 	{
 		AutoIGRR_CurrentSiteActive++;
-		if (AutoIGRR_CurrentSiteActive <= AutoIGRR_aaaa)
+		if (AutoIGRR_CurrentSiteActive <= LastCombination)
 		{
 			AutoIGRR_Repeat_Counter = AutoIGRR_Repeat_Counter_original;
 			for (int i = 0; i < NUM_SITES; i++)
